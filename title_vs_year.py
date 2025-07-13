@@ -1,8 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+netflix_df=pd.read_csv("netflix.csv")
+prime_df=pd.read_csv("prime.csv")
+hotstar_df=pd.read_csv("hotstar.csv")
+
+
 title_hotstar = hotstar_df['year'].value_counts().sort_index()
 title_hotstar_df = title_hotstar.reset_index()
 title_hotstar_df.columns = ['year', 'count']
 
-X1 = title_hotstar_df[['year']]
+x1 = title_hotstar_df[['year']]
 y1 = title_hotstar_df['count']
 
 # Count titles per year for Netflix
@@ -22,8 +32,8 @@ X3 = title_prime_df[['year']]
 y3 = title_prime_df['count']
 
 model1 = LinearRegression()
-model1.fit(X1, y1)
-X1_range = np.linspace(X1['year'].min(), X1['year'].max(), 300).reshape(-1, 1)
+model1.fit(x1, y1)
+x1_range = np.linspace(X1['year'].min(), X1['year'].max(), 300).reshape(-1, 1)
 y1_pred = model1.predict(X1_range)
 
 model2 = LinearRegression()
@@ -38,7 +48,7 @@ y3_pred = model3.predict(X3_range)
 
 
 plt.figure(figsize=(12, 6))
-plt.scatter(X1, y1, color='blue', label='Hotstar')
+plt.scatter(x1, y1, color='blue', label='Hotstar')
 plt.plot(X1_range, y1_pred, color='blue', linewidth=2, label='Hotstar')
 plt.title('Titles vs Year')
 plt.xlabel('Year')
